@@ -1,0 +1,10 @@
+{
+  "cmake.configureSettings": {
+    "CMAKE_TOOLCHAIN_FILE": "${workspaceFolder}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+  },
+  "cmake.sourceDirectory": "${workspaceFolder}",
+  "C_Cpp.default.includePath": [
+    "${workspaceFolder}/googletest/googletest/include",
+    "${workspaceFolder}/googletest/googlemock/include"
+  ]
+}
