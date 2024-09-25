@@ -22,7 +22,9 @@ int main() {
     } catch (const MemoryAllocationException& e) {
         std::cerr << e.what() << std::endl;
         return 1;
-    }
+    } catch (const InvalidSizeException& e) {
+        std::cerr << e.what() << std::endl;
+        return 1;
 
     std::cout << "Enter 4 bits for the second number (0 or 1): ";
     unsigned char arrayNumbers[4];
