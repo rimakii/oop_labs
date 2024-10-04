@@ -33,8 +33,8 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Binary& binary);
 
 private:
-    size_t bSize;
-    unsigned char* bData;
+    size_t b_size;
+    unsigned char* b_data;
 };
 class InvalidDigitException : public std::invalid_argument {
 public:
@@ -49,9 +49,4 @@ public:
 class SubtractionUnderflowException : public std::logic_error {
 public:
     SubtractionUnderflowException() : std::logic_error("Subtraction underflow: the result of the subtraction is negative") {}
-};
-
-class MemoryAllocationException : public std::runtime_error {
-public:
-    MemoryAllocationException() : std::runtime_error("Memory allocation failed") {}
 };

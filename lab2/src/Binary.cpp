@@ -19,14 +19,14 @@ std::string removeLeadingZeros(const std::string& binaryString) {
     return binaryString.substr(pos);
 }
 
-Binary::Binary() : bSize(1), bData(new unsigned char{0}) {}
+Binary::Binary() : b_size(1), b_data(new unsigned char{0}) {}
 
 Binary::Binary(size_t size, unsigned char value) {
     if (size == 0) {
         throw InvalidSizeException();
     }
-    bSize = size;
-    bData = new unsigned char[size];
+    b_size = size;
+    b_data = new unsigned char[size];
     unsigned char numericValue = value - '0'; 
 
     if (numericValue != 0 && numericValue != 1) {
@@ -34,7 +34,7 @@ Binary::Binary(size_t size, unsigned char value) {
     }
     
     for (size_t i = 0; i < size; ++i) {
-        bData[i] = numericValue;
+        b_data[i] = numericValue;
     }
 }
 
@@ -45,15 +45,15 @@ Binary::Binary(const std::initializer_list<unsigned char>& values) {
         if (digit == '1') break;
         ++flag;
     }
-    bSize = values.size() - flag;
-    bData = new unsigned char[bSize];
+    b_size = values.size() - flag;
+    b_data = new unsigned char[b_size];
     for (unsigned char digit : values) {
         if (flag == 0) {
             unsigned char numericValue = digit - '0';
             if (numericValue != 0 && numericValue != 1) {
                 throw InvalidDigitException();
             }
-            bData[i++] = numericValue;
+            b_data[i++] = numericValue;
         } else {
             --flag;
         }
@@ -63,40 +63,40 @@ Binary::Binary(const std::initializer_list<unsigned char>& values) {
 Binary::Binary(const std::string& binaryString) {
     std::string cleanedBinaryString = removeLeadingZeros(binaryString);
     validateBinaryString(cleanedBinaryString);
-    bSize = cleanedBinaryString.size();
-    bData = new unsigned char[bSize];
-    for (size_t i = 0; i < bSize; ++i) {
-        bData[i] = cleanedBinaryString[i] - '0';
+    b_size = cleanedBinaryString.size();
+    b_data = new unsigned char[b_size];
+    for (size_t i = 0; i < b_size; ++i) {
+        b_data[i] = cleanedBinaryString[i] - '0';
     }
 }
 
 Binary::Binary(const Binary& other) {
-    bSize = other.bSize;
-    bData = new unsigned char[bSize];
-    for (size_t i = 0; i < bSize; ++i) {
-        bData[i] = other.bData[i];
+    b_size = other.b_size;
+    b_data = new unsigned char[b_size];
+    for (size_t i = 0; i < b_size; ++i) {
+        b_data[i] = other.b_data[i];
     }
 }
 
 Binary::Binary(Binary&& other) noexcept {
-    bSize = other.bSize;
-    bData = other.bData;
+    b_size = other.b_size;
+    b_data = other.b_data;
 
-    other.bSize = 0;
-    other.bData = nullptr;
+    other.b_size = 0;
+    other.b_data = nullptr;
 }
 
 Binary::~Binary() noexcept {
-    if (bSize > 0) {
-        delete[] bData;
-        bData = nullptr;
-        bSize = 0;
+    if (b_size > 0) {
+        delete[] b_data;
+        b_data = nullptr;
+        b_size = 0;
     }
 }
 
 std::ostream& operator<<(std::ostream& os, const Binary& binary) {
-    for (size_t i = 0; i < binary.bSize; ++i) {
-        os << static_cast<int>(binary.bData[i]);
+    for (size_t i = 0; i < binary.b_size; ++i) {
+        os << static_cast<int>(binary.b_data[i]);
     }
     return os;
 }
@@ -105,24 +105,24 @@ Binary& Binary::operator=(const Binary& other) {
     if (this == &other) {
         return *this;
     }
-    delete[] bData;
-    bSize = other.bSize;
-    bData = new unsigned char[bSize];
-    for (size_t i = 0; i < bSize; ++i) {
-        bData[i] = other.bData[i];
+    delete[] b_data;
+    b_size = other.b_size;
+    b_data = new unsigned char[b_size];
+    for (size_t i = 0; i < b_size; ++i) {
+        b_data[i] = other.b_data[i];
     }
     return *this;
 }
 
 Binary Binary::operator+(const Binary& other) const {
     unsigned long long decimal1 = 0;
-    for (size_t i = 0; i < bSize; ++i) {
-        decimal1 = decimal1 * 2 + bData[i];
+    for (size_t i = 0; i < b_size; ++i) {
+        decimal1 = decimal1 * 2 + b_data[i];
     }
 
     unsigned long long decimal2 = 0;
-    for (size_t i = 0; i < other.bSize; ++i) {
-        decimal2 = decimal2 * 2 + other.bData[i];
+    for (size_t i = 0; i < other.b_size; ++i) {
+        decimal2 = decimal2 * 2 + other.b_data[i];
     }
 
     unsigned long long sumDecimal = decimal1 + decimal2;
@@ -146,13 +146,13 @@ Binary Binary::operator-(const Binary& other) const {
     }
 
     unsigned long long decimal1 = 0;
-    for (size_t i = 0; i < bSize; ++i) {
-        decimal1 = decimal1 * 2 + bData[i];
+    for (size_t i = 0; i < b_size; ++i) {
+        decimal1 = decimal1 * 2 + b_data[i];
     }
 
     unsigned long long decimal2 = 0;
-    for (size_t i = 0; i < other.bSize; ++i) {
-        decimal2 = decimal2 * 2 + other.bData[i];
+    for (size_t i = 0; i < other.b_size; ++i) {
+        decimal2 = decimal2 * 2 + other.b_data[i];
     }
 
     unsigned long long diffDecimal = decimal1 - decimal2;
@@ -181,9 +181,9 @@ Binary& Binary::operator-=(const Binary& other) {
 }
 
 bool Binary::operator==(const Binary& other) const {
-    if (bSize != other.bSize) return false;
-    for (size_t i = 0; i < bSize; ++i) {
-        if (bData[i] != other.bData[i]) return false;
+    if (b_size != other.b_size) return false;
+    for (size_t i = 0; i < b_size; ++i) {
+        if (b_data[i] != other.b_data[i]) return false;
     }
     return true;
 }
@@ -193,11 +193,11 @@ bool Binary::operator!=(const Binary& other) const {
 }
 
 bool Binary::operator<(const Binary& other) const {
-    if (bSize < other.bSize) return true;
-    if (bSize > other.bSize) return false;
-    for (size_t i = 0; i < bSize; ++i) {
-        if (bData[i] < other.bData[i]) return true;
-        if (bData[i] > other.bData[i]) return false;
+    if (b_size < other.b_size) return true;
+    if (b_size > other.b_size) return false;
+    for (size_t i = 0; i < b_size; ++i) {
+        if (b_data[i] < other.b_data[i]) return true;
+        if (b_data[i] > other.b_data[i]) return false;
     }
     return false;
 }
@@ -215,5 +215,5 @@ bool Binary::operator>=(const Binary& other) const {
 }
 
 size_t Binary::getSize() const {
-    return bSize;
+    return b_size;
 }

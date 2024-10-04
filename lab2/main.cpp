@@ -19,9 +19,6 @@ int main() {
     } catch (const InvalidDigitException& e) {
         std::cerr << e.what() << std::endl;
         return 1;
-    } catch (const MemoryAllocationException& e) {
-        std::cerr << e.what() << std::endl;
-        return 1;
     } catch (const InvalidSizeException& e) {
         std::cerr << e.what() << std::endl;
         return 1;
@@ -39,9 +36,6 @@ int main() {
     } catch (const InvalidDigitException& e) {
         std::cerr << e.what() << std::endl;
         return 1;
-    } catch (const MemoryAllocationException& e) {
-        std::cerr << e.what() << std::endl;
-        return 1;
     }
     
     std::string binaryString;
@@ -55,10 +49,7 @@ int main() {
     } catch (const InvalidDigitException& e) {
         std::cerr << e.what() << std::endl;
         return 1;
-    } catch (const MemoryAllocationException& e) {
-        std::cerr << e.what() << std::endl;
-        return 1;
-    }
+    } 
 
     
     Binary sumResult = number3;
