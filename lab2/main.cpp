@@ -25,7 +25,7 @@ int main() {
     } catch (const InvalidSizeException& e) {
         std::cerr << e.what() << std::endl;
         return 1;
-
+    }
     std::cout << "Enter 4 bits for the second number (0 or 1): ";
     unsigned char arrayNumbers[4];
     for (int i = 0; i < 4; ++i) {
@@ -87,4 +87,5 @@ int main() {
     std::cout << "Number 3 > Number 1: " << (number3 > number1) << std::endl;
     
     return 0;
+    
 }

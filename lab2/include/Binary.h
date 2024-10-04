@@ -8,7 +8,7 @@
 class Binary {
 public:
     Binary();
-    Binary(size_t size, unsigned char value = '0');
+    Binary(size_t size, unsigned char value = 0);
     Binary(const std::initializer_list<unsigned char>& values);
     Binary(const std::string& binaryString);
     Binary(const Binary& other);
@@ -33,8 +33,8 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Binary& binary);
 
 private:
-    size_t b_size;
-    unsigned char* data;
+    size_t bSize;
+    unsigned char* bData;
 };
 class InvalidDigitException : public std::invalid_argument {
 public:

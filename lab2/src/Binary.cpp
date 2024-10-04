@@ -3,15 +3,6 @@
 #include <stdexcept>
 #include <string>
 
-
-unsigned char* allocateMemory(size_t size) {
-    unsigned char* ptr = new(std::nothrow) unsigned char[size]{0};
-    if (!ptr) {
-        throw MemoryAllocationException();
-    }
-    return ptr;
-}
-
 void validateBinaryString(const std::string& binaryString) {
     for (char digit : binaryString) {
         if (digit != '0' && digit != '1') {
@@ -28,39 +19,22 @@ std::string removeLeadingZeros(const std::string& binaryString) {
     return binaryString.substr(pos);
 }
 
-Binary::Binary() : b_size(1), data(allocateMemory(1)) {
-    data[0] = 0;
-}
+Binary::Binary() : bSize(1), bData(new unsigned char{0}) {}
 
 Binary::Binary(size_t size, unsigned char value) {
-    if (size == 0){
+    if (size == 0) {
         throw InvalidSizeException();
     }
-    if (value == 0){
-        b_size = size;
-        data = allocateMemory(size);
-        for (size_t i = 0; i < size; ++i) {
-            data[i] = '0';
-        }
+    bSize = size;
+    bData = new unsigned char[size];
+    unsigned char numericValue = value - '0'; 
+
+    if (numericValue != 0 && numericValue != 1) {
+        throw InvalidDigitException();
     }
-    else {
-        unsigned char numericValue = value - '0'; 
-        if (numericValue != 0 && numericValue != 1) {
-            throw InvalidDigitException();
-        }
-        
-        if (numericValue == 0){
-            b_size = 1;
-            data = allocateMemory(1);
-            data[0] = 0;
-        }
-        else{
-            b_size = size;
-            data = allocateMemory(size);
-            for (size_t i = 0; i < size; ++i) {
-                data[i] = numericValue;
-            }
-        }
+    
+    for (size_t i = 0; i < size; ++i) {
+        bData[i] = numericValue;
     }
 }
 
@@ -71,80 +45,84 @@ Binary::Binary(const std::initializer_list<unsigned char>& values) {
         if (digit == '1') break;
         ++flag;
     }
-    b_size = values.size() - flag;
-    data = allocateMemory(b_size);
+    bSize = values.size() - flag;
+    bData = new unsigned char[bSize];
     for (unsigned char digit : values) {
-        if (flag == 0){
+        if (flag == 0) {
             unsigned char numericValue = digit - '0';
             if (numericValue != 0 && numericValue != 1) {
                 throw InvalidDigitException();
             }
-            data[i++] = numericValue;
+            bData[i++] = numericValue;
+        } else {
+            --flag;
         }
-        else --flag;
     }
 }
 
-Binary::Binary(const std::string& binaryString) : b_size(binaryString.size()), data(allocateMemory(binaryString.size())) {
+Binary::Binary(const std::string& binaryString) {
     std::string cleanedBinaryString = removeLeadingZeros(binaryString);
     validateBinaryString(cleanedBinaryString);
-    b_size = cleanedBinaryString.size();
-    data = allocateMemory(b_size);
-    for (size_t i = 0; i < b_size; ++i) {
-        data[i] = cleanedBinaryString[i] - '0';
+    bSize = cleanedBinaryString.size();
+    bData = new unsigned char[bSize];
+    for (size_t i = 0; i < bSize; ++i) {
+        bData[i] = cleanedBinaryString[i] - '0';
     }
 }
 
-Binary::Binary(const Binary& other) : b_size(other.b_size), data(allocateMemory(other.b_size)) {
-    for (size_t i = 0; i < b_size; ++i) {
-        data[i] = other.data[i];
+Binary::Binary(const Binary& other) {
+    bSize = other.bSize;
+    bData = new unsigned char[bSize];
+    for (size_t i = 0; i < bSize; ++i) {
+        bData[i] = other.bData[i];
     }
 }
 
-Binary::Binary(Binary&& other) noexcept : b_size(0), data(nullptr) {
-    b_size = other.b_size;
-    data = other.data;
-    other.b_size = 0;
-    other.data = nullptr;
+Binary::Binary(Binary&& other) noexcept {
+    bSize = other.bSize;
+    bData = other.bData;
+
+    other.bSize = 0;
+    other.bData = nullptr;
 }
 
 Binary::~Binary() noexcept {
-    delete[] data;
-    data = nullptr;
-    b_size = 0;
+    if (bSize > 0) {
+        delete[] bData;
+        bData = nullptr;
+        bSize = 0;
+    }
 }
 
 std::ostream& operator<<(std::ostream& os, const Binary& binary) {
-    for (size_t i = 0; i < binary.b_size; ++i) {
-        os << static_cast<int>(binary.data[i]);
+    for (size_t i = 0; i < binary.bSize; ++i) {
+        os << static_cast<int>(binary.bData[i]);
     }
     return os;
 }
+
 Binary& Binary::operator=(const Binary& other) {
     if (this == &other) {
         return *this;
     }
-
-    delete[] data;
-    b_size = other.b_size;
-    data = new unsigned char[b_size];
-
-    for (size_t i = 0; i < b_size; ++i) {
-        data[i] = other.data[i];
+    delete[] bData;
+    bSize = other.bSize;
+    bData = new unsigned char[bSize];
+    for (size_t i = 0; i < bSize; ++i) {
+        bData[i] = other.bData[i];
     }
-
     return *this;
 }
 
 Binary Binary::operator+(const Binary& other) const {
     unsigned long long decimal1 = 0;
-    for (size_t i = 0; i < b_size; ++i) {
-        decimal1 = decimal1 * 2 + data[i];
+    for (size_t i = 0; i < bSize; ++i) {
+        decimal1 = decimal1 * 2 + bData[i];
     }
 
     unsigned long long decimal2 = 0;
-    for (size_t i = 0; i < other.b_size; ++i) {
-        decimal2 = decimal2 * 2 + other.data[i];
+    for (size_t i = 0; i < other.bSize; ++i) {
+        decimal2 = decimal2 * 2 + other.bData[i];
     }
 
     unsigned long long sumDecimal = decimal1 + decimal2;
@@ -166,14 +144,15 @@ Binary Binary::operator-(const Binary& other) const {
     if (!(*this >= other)) {
         throw SubtractionUnderflowException();
     }
+
     unsigned long long decimal1 = 0;
-    for (size_t i = 0; i < b_size; ++i) {
-        decimal1 = decimal1 * 2 + data[i];
+    for (size_t i = 0; i < bSize; ++i) {
+        decimal1 = decimal1 * 2 + bData[i];
     }
 
     unsigned long long decimal2 = 0;
-    for (size_t i = 0; i < other.b_size; ++i) {
-        decimal2 = decimal2 * 2 + other.data[i];
+    for (size_t i = 0; i < other.bSize; ++i) {
+        decimal2 = decimal2 * 2 + other.bData[i];
     }
 
     unsigned long long diffDecimal = decimal1 - decimal2;
@@ -202,9 +181,9 @@ Binary& Binary::operator-=(const Binary& other) {
 }
 
 bool Binary::operator==(const Binary& other) const {
-    if (b_size != other.b_size) return false;
-    for (size_t i = 0; i < b_size; ++i) {
-        if (data[i] != other.data[i]) return false;
+    if (bSize != other.bSize) return false;
+    for (size_t i = 0; i < bSize; ++i) {
+        if (bData[i] != other.bData[i]) return false;
     }
     return true;
 }
@@ -214,11 +193,11 @@ bool Binary::operator!=(const Binary& other) const {
 }
 
 bool Binary::operator<(const Binary& other) const {
-    if (b_size < other.b_size) return true;
-    if (b_size > other.b_size) return false;
-    for (size_t i = 0; i < b_size; ++i) {
-        if (data[i] < other.data[i]) return true;
-        if (data[i] > other.data[i]) return false;
+    if (bSize < other.bSize) return true;
+    if (bSize > other.bSize) return false;
+    for (size_t i = 0; i < bSize; ++i) {
+        if (bData[i] < other.bData[i]) return true;
+        if (bData[i] > other.bData[i]) return false;
     }
     return false;
 }
@@ -236,7 +215,5 @@ bool Binary::operator>=(const Binary& other) const {
 }
 
 size_t Binary::getSize() const {
-    return b_size;
+    return bSize;
 }
-
-
