@@ -15,10 +15,6 @@ TEST(ArrayTest, AddAndRemoveFigures1) {
     array.add(rhombus);
     array.add(trapezoid);
     EXPECT_EQ(array.totalArea(), rect->operator double() + rhombus->operator double() + trapezoid->operator double());
-
-    delete rect;
-    delete rhombus;
-    delete trapezoid;
 }
 TEST(ArrayTest, AddAndRemoveFigures2) {
     Array array;
@@ -31,10 +27,6 @@ TEST(ArrayTest, AddAndRemoveFigures2) {
     array.remove(1); 
 
     EXPECT_EQ(array.totalArea(), rect->operator double() + trapezoid->operator double());
-
-    delete rect;
-    delete rhombus;
-    delete trapezoid;
 }
 
 TEST(ArrayTest, EmptyArray) {
@@ -65,7 +57,7 @@ TEST(RectangleTest, Print) {
     std::ostringstream output;
     rect.print(output);
 
-    std::string expectedOutput = "Rectangle: (0, 0) to (2, 2)";
+    std::string expectedOutput = "Rectangle: (0, 0), (2, 2)";
 
     EXPECT_EQ(output.str(), expectedOutput);
 }
