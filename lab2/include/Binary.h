@@ -30,7 +30,7 @@ public:
 
     size_t getSize() const;
 
-    friend std::ostream& operator<<(std::ostream& os, const Binary& binary);
+    friend std::ostream& operator<<(std::ostream& os, const Binary& binary);    
 
 private:
     size_t b_size;
