@@ -1,0 +1,2 @@
+/usr/bin/ar qc liblab4_lib.a CMakeFiles/lab4_lib.dir/src/Rectangle.cpp.o CMakeFiles/lab4_lib.dir/src/Trapezoid.cpp.o CMakeFiles/lab4_lib.dir/src/Rhombus.cpp.o CMakeFiles/lab4_lib.dir/src/Array.cpp.o
+/usr/bin/ranlib liblab4_lib.a
