@@ -10,13 +10,12 @@ public:
     double area() const override;
 };
 
-// ??????????? ???????????? ? ??????? ????? ? ???????????? ?????
 template <Scalar T>
 Rectangle<T>::Rectangle(T x1, T y1, T x2, T y2) {
-    this->add_vertex(std::make_unique<Point<T>>(x1, y1));
-    this->add_vertex(std::make_unique<Point<T>>(x2, y1));
-    this->add_vertex(std::make_unique<Point<T>>(x2, y2));
-    this->add_vertex(std::make_unique<Point<T>>(x1, y2));
+    this->addVertex(std::make_unique<Point<T>>(x1, y1));
+    this->addVertex(std::make_unique<Point<T>>(x2, y1));
+    this->addVertex(std::make_unique<Point<T>>(x2, y2));
+    this->addVertex(std::make_unique<Point<T>>(x1, y2));
 }
 
 template <Scalar T>

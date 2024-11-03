@@ -25,32 +25,26 @@ int main() {
             int x1, y1, x2, y2;
             std::cout << "Enter coordinates (x1 y1 x2 y2): ";
             std::cin >> x1 >> y1 >> x2 >> y2;
-            figures.push_back(std::make_shared<Rectangle<int>>(x1, y1, x2, y2));
+            figures.add(std::make_shared<Rectangle<int>>(x1, y1, x2, y2));
         } else if (choice == 2) {
             int x1, y1, x2, y2, x3, y3, x4, y4;
             std::cout << "Enter coordinates (x1 y1 x2 y2 x3 y3 x4 y4): ";
             std::cin >> x1 >> y1 >> x2 >> y2 >> x3 >> y3 >> x4 >> y4;
-            figures.push_back(std::make_shared<Trapezoid<int>>(x1, y1, x2, y2, x3, y3, x4, y4));
+            figures.add(std::make_shared<Trapezoid<int>>(x1, y1, x2, y2, x3, y3, x4, y4));
         } else if (choice == 3) {
             int x1, y1, x2, y2, x3, y3, x4, y4;
             std::cout << "Enter coordinates (x1 y1 x2 y2 x3 y3 x4 y4): ";
             std::cin >> x1 >> y1 >> x2 >> y2 >> x3 >> y3 >> x4 >> y4;
-            figures.push_back(std::make_shared<Rhombus<int>>(x1, y1, x2, y2, x3, y3, x4, y4));
+            figures.add(std::make_shared<Rhombus<int>>(x1, y1, x2, y2, x3, y3, x4, y4));
         } else if (choice == 4) {
             size_t index;
             std::cout << "Enter index to remove: ";
             std::cin >> index;
             figures.remove(index);
         } else if (choice == 5) {
-            for (size_t i = 0; i < figures.get_size(); ++i) {
-                std::cout << "Figure " << i + 1 << ":\n";
-                std::cout << "Center: " << figures[i]->center() << "\n";
-                std::cout << "Vertices: ";
-                figures[i]->print_vertices();
-                std::cout << "Area: " << static_cast<double>(*figures[i]) << "\n\n";
-            }
+            figures.printAll();
         } else if (choice == 6) {
-            std::cout << "Total Area: " << figures.total_area() << std::endl;
+            std::cout << "Total Area: " << figures.totalArea() << std::endl;
         } else if (choice == 7) {
             break;
         } else {

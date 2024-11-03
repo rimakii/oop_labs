@@ -11,13 +11,12 @@ public:
     double area() const override;
 };
 
-// ??????????? ???????????? ? ??????? ????? ? ???????????? ?????
 template <Scalar T>
 Rhombus<T>::Rhombus(T x1, T y1, T x2, T y2, T x3, T y3, T x4, T y4) {
-    this->add_vertex(std::make_unique<Point<T>>(x1, y1));
-    this->add_vertex(std::make_unique<Point<T>>(x2, y2));
-    this->add_vertex(std::make_unique<Point<T>>(x3, y3));
-    this->add_vertex(std::make_unique<Point<T>>(x4, y4));
+    this->addVertex(std::make_unique<Point<T>>(x1, y1));
+    this->addVertex(std::make_unique<Point<T>>(x2, y2));
+    this->addVertex(std::make_unique<Point<T>>(x3, y3));
+    this->addVertex(std::make_unique<Point<T>>(x4, y4));
 }
 
 template <Scalar T>

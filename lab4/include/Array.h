@@ -1,7 +1,6 @@
 #pragma once
-
+#include <iostream>
 #include <memory>
-#include <stdexcept>
 
 template <typename T>
 class Array {
@@ -10,83 +9,62 @@ private:
     size_t size;
     size_t capacity;
 
+    void increaseCapacity() {
+        size_t newCapacity = capacity + 5;
+        std::shared_ptr<T[]> newData(new T[newCapacity], std::default_delete<T[]>());
+        
+        for (size_t i = 0; i < size; ++i) {
+            newData[i] = std::move(data[i]); 
+        }
+        
+        data = std::move(newData);
+        capacity = newCapacity;
+    }
+
 public:
-    Array(size_t initial_capacity = 10);
+    Array(size_t initialCapacity = 5) : size(0), capacity(initialCapacity) {
+        data = std::shared_ptr<T[]>(new T[capacity], std::default_delete<T[]>());
+    }
 
-    void push_back(T&& item);
-    void remove(size_t index);
+    void add(T element) {
+        if (size >= capacity) {
+            increaseCapacity();
+        }
+        data[size++] = std::move(element);
+    }
 
-    T& operator[](size_t index);
-    const T& operator[](size_t index) const;
+    void remove(size_t index) {
+        if (index < size) {
+            for (size_t i = index; i < size - 1; ++i) {
+                data[i] = std::move(data[i + 1]);
+            }
+            --size;
+        }
+    }
 
-    size_t get_size() const;
-    double total_area() const; // ????? ??????? ??? ?????????? ????? ???????
+    double totalArea() const {
+        double total = 0;
+        for (size_t i = 0; i < size; ++i) {
+            if (data[i]) {
+                total += data[i]->area();
+            }
+        }
+        return total;
+    }
 
-private:
-    void resize(size_t new_capacity);
+    void printAll() const {
+    for (size_t i = 0; i < size; ++i) {
+        if (data[i]) {
+            std::cout << "Figure " << i + 1 << ":\n";
+            std::cout << "  Center: " << data[i]->center() << "\n";
+            std::cout << "  Area: " << data[i]->area() << "\n";
+            std::cout << "  Vertices:\n";
+             data[i]->printVertices();
+        }
+    }
+}
+
+    size_t getSize() const {
+        return size;
+    }
 };
-
-// ??????????? ??????? ????? ? ???????????? ?????
-template <typename T>
-Array<T>::Array(size_t initial_capacity) : size(0), capacity(initial_capacity) {
-    data = std::make_shared<T[]>(initial_capacity);
-}
-
-template <typename T>
-void Array<T>::push_back(T&& item) {
-    if (size >= capacity) {
-        resize(capacity * 2);
-    }
-    data[size++] = std::move(item);
-}
-
-template <typename T>
-void Array<T>::remove(size_t index) {
-    if (index >= size) {
-        throw std::out_of_range("Index out of range");
-    }
-    for (size_t i = index; i < size - 1; ++i) {
-        data[i] = std::move(data[i + 1]);
-    }
-    --size;
-}
-
-template <typename T>
-T& Array<T>::operator[](size_t index) {
-    if (index >= size) {
-        throw std::out_of_range("Index out of range");
-    }
-    return data[index];
-}
-
-template <typename T>
-const T& Array<T>::operator[](size_t index) const {
-    if (index >= size) {
-        throw std::out_of_range("Index out of range");
-    }
-    return data[index];
-}
-
-template <typename T>
-size_t Array<T>::get_size() const {
-    return size;
-}
-
-template <typename T>
-double Array<T>::total_area() const {
-    double total = 0.0;
-    for (size_t i = 0; i < size; ++i) {
-        total += static_cast<double>(*data[i]);
-    }
-    return total;
-}
-
-template <typename T>
-void Array<T>::resize(size_t new_capacity) {
-    auto new_data = std::make_shared<T[]>(new_capacity);
-    for (size_t i = 0; i < size; ++i) {
-        new_data[i] = std::move(data[i]);
-    }
-    data = new_data;
-    capacity = new_capacity;
-}

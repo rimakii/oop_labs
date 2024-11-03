@@ -3,13 +3,13 @@
 #include <iostream>
 #include "Point.h"
 
-constexpr size_t MAX_VERTICES = 4; // ???????????? ?????????? ?????? ??? ?????
+constexpr size_t MAX_VERTICES = 4; 
 
 template <Scalar T>
 class Figure {
 protected:
     std::unique_ptr<Point<T>[]> vertices;
-    size_t num_vertices; // ?????????? ?????? ? ??????
+    size_t num_vertices;
 
 public:
     Figure() : vertices(std::make_unique<Point<T>[]>(MAX_VERTICES)), num_vertices(0) {}
@@ -18,15 +18,17 @@ public:
     virtual Point<T> center() const = 0;
     virtual double area() const = 0;
 
-    void add_vertex(std::unique_ptr<Point<T>> vertex) {
+    void addVertex(std::unique_ptr<Point<T>> vertex) {
         if (num_vertices < MAX_VERTICES) {
             vertices[num_vertices++] = std::move(*vertex);
         }
     }
 
-    void print_vertices() const {
+    void printVertices() const {
         for (size_t i = 0; i < num_vertices; ++i) {
+            if (i % 2 == 0) std::cout << "(";
             std::cout << vertices[i] << " ";
+            if (i % 2 == 1) std::cout << ")";
         }
         std::cout << std::endl;
     }

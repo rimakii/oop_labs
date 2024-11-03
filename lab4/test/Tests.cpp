@@ -80,27 +80,27 @@ TEST(RhombusTest, InitializationAndArea2) {
 TEST(ArrayTest, Initialization) {
     Array<std::shared_ptr<Figure<int>>> figures;
 
-    EXPECT_EQ(figures.get_size(), 0);
+    EXPECT_EQ(figures.getSize(), 0);
 }
 
 TEST(ArrayTest, PushBack) {
     Array<std::shared_ptr<Figure<int>>> figures;
 
-    figures.push_back(std::make_shared<Rectangle<int>>(0, 0, 4, 2));
-    figures.push_back(std::make_shared<Trapezoid<int>>(0, 0, 4, 0, 2, 2, 2, 2));
-    figures.push_back(std::make_shared<Rhombus<int>>(0, 0, 2, 2, 4, 0, 2, -2));
+    figures.add(std::make_shared<Rectangle<int>>(0, 0, 4, 2));
+    figures.add(std::make_shared<Trapezoid<int>>(0, 0, 4, 0, 2, 2, 2, 2));
+    figures.add(std::make_shared<Rhombus<int>>(0, 0, 2, 2, 4, 0, 2, -2));
 
-    EXPECT_EQ(figures.get_size(), 3);
+    EXPECT_EQ(figures.getSize(), 3);
 }
 
 TEST(ArrayTest, TotalArea) {
     Array<std::shared_ptr<Figure<int>>> figures;
 
-    figures.push_back(std::make_shared<Rectangle<int>>(0, 0, 4, 2));
-    figures.push_back(std::make_shared<Trapezoid<int>>(0, 0, 4, 0, 2, 2, 2, 2));
-    figures.push_back(std::make_shared<Rhombus<int>>(0, 0, 2, 2, 4, 0, 2, -2));
+    figures.add(std::make_shared<Rectangle<int>>(0, 0, 4, 2));
+    figures.add(std::make_shared<Trapezoid<int>>(0, 0, 4, 0, 2, 2, 2, 2));
+    figures.add(std::make_shared<Rhombus<int>>(0, 0, 2, 2, 4, 0, 2, -2));
 
-    double total_area = figures.total_area();
+    double total_area = figures.totalArea();
 
     EXPECT_EQ(total_area, 20);
 }
@@ -108,38 +108,30 @@ TEST(ArrayTest, TotalArea) {
 TEST(ArrayTest, Remove) {
     Array<std::shared_ptr<Figure<int>>> figures;
 
-    figures.push_back(std::make_shared<Rectangle<int>>(0, 0, 4, 2));
-    figures.push_back(std::make_shared<Trapezoid<int>>(0, 0, 4, 0, 2, 2, 2, 2));
-    figures.push_back(std::make_shared<Rhombus<int>>(0, 0, 2, 2, 4, 0, 2, -2));
+    figures.add(std::make_shared<Rectangle<int>>(0, 0, 4, 2));
+    figures.add(std::make_shared<Trapezoid<int>>(0, 0, 4, 0, 2, 2, 2, 2));
+    figures.add(std::make_shared<Rhombus<int>>(0, 0, 2, 2, 4, 0, 2, -2));
 
     figures.remove(1);
 
-    EXPECT_EQ(figures.get_size(), 2);
+    EXPECT_EQ(figures.getSize(), 2);
 
-    double total_area = figures.total_area();
+    double total_area = figures.totalArea();
 
     EXPECT_EQ(total_area, 16);
 }
 
-TEST(ArrayTest, RemoveNonExistentIndex) {
-    Array<std::shared_ptr<Figure<int>>> figures;
-
-    figures.push_back(std::make_shared<Rectangle<int>>(0, 0, 4, 2));
-    figures.push_back(std::make_shared<Trapezoid<int>>(0, 0, 4, 0, 2, 2, 2, 2));
-
-    EXPECT_THROW(figures.remove(2), std::out_of_range);
-}
 
 TEST(ArrayTest, ResizeAndMove) {
     Array<std::shared_ptr<Figure<int>>> figures;
 
     for (int i = 0; i < 15; ++i) {
-        figures.push_back(std::make_shared<Rectangle<int>>(0, 0, 4, 2));
+        figures.add(std::make_shared<Rectangle<int>>(0, 0, 4, 2));
     }
 
-    EXPECT_EQ(figures.get_size(), 15);
+    EXPECT_EQ(figures.getSize(), 15);
 
-    double total_area = figures.total_area();
+    double total_area = figures.totalArea();
 
     EXPECT_EQ(total_area, 120);
 }
