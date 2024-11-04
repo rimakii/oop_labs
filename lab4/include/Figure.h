@@ -26,9 +26,7 @@ public:
 
     void printVertices() const {
         for (size_t i = 0; i < num_vertices; ++i) {
-            if (i % 2 == 0) std::cout << "(";
             std::cout << vertices[i] << " ";
-            if (i % 2 == 1) std::cout << ")";
         }
         std::cout << std::endl;
     }
