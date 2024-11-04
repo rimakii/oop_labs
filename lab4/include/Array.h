@@ -10,7 +10,7 @@ private:
     size_t capacity;
 
     void increaseCapacity() {
-        size_t newCapacity = capacity + 5;
+        size_t newCapacity = capacity * 2;
         std::shared_ptr<T[]> newData(new T[newCapacity], std::default_delete<T[]>());
         
         for (size_t i = 0; i < size; ++i) {
