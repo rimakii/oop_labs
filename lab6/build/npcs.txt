@@ -1,0 +1,3 @@
+Orc Gorok 100 200
+Knight Sir Lancelot 150 200
+Bear Grizzly 200 150

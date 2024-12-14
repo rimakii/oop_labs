@@ -1,0 +1,14 @@
+[File]: Orc created: Gorok at (100, 200)
+[File]: Knight created: Sir Lancelot at (150, 200)
+[File]: Bear created: Grizzly at (200, 150)
+[File]: NPCs saved to file.
+[File]: NPCs loaded from file.
+[File]: NPCs printed.
+[File]: Battle finished.
+[File]: Orc created: Gorok at (100, 200)
+[File]: Knight created: Sir Lancelot at (150, 200)
+[File]: Bear created: Grizzly at (200, 150)
+[File]: NPCs saved to file.
+[File]: NPCs loaded from file.
+[File]: NPCs printed.
+[File]: Battle finished.
